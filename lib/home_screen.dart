@@ -1,3 +1,4 @@
+import 'package:ccextractor_beacon_task/utils/my_widgets.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,74 +11,50 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.blue, Colors.white],
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Colors.blue, Colors.white],
+            ),
           ),
-        ),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text("Add location"),
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.lightBlueAccent[200],
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          shadowColor: Colors.blueAccent[100]),
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    elevatedButton(
+                      text: "Add location",
+                      onpress: () {},
                     ),
-                  ),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text("Share location"),
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.lightBlue[200],
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          shadowColor: Colors.blue[100]),
-                    ),
-                  ),
-                ],
+                    elevatedButton(
+                      text: "Share location",
+                      onpress: () {},
+                    )
+                  ],
+                ),
               ),
-            ),
-            Expanded(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text("Stop Sharing"),
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.blue[300],
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          shadowColor: Colors.blue[200]),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    elevatedButton(
+                      text: "Stop Sharing",
+                      onpress: () {},
                     ),
-                  ),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text("History"),
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.blue[400],
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          shadowColor: Colors.blue[300]),
-                    ),
-                  ),
-                ],
+                    elevatedButton(
+                      text: "Stop Sharing",
+                      onpress: () {},
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

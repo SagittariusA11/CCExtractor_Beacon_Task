@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/auth_controller.dart';
 import '../utils/app_color.dart';
-import 'my_widgets.dart';
+import 'utils/my_widgets.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
