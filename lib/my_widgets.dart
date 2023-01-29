@@ -56,13 +56,13 @@ Widget myTextFieldPassword({text, String? prefixicon, String? suffixicon, bool, 
                   suffixicon!,
                   cacheHeight: 20,
               )),
-          border: InputBorder.none
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0))
       ),
     ),
   );
 }
 
-Widget myTextFieldEmail({text, bool, TextEditingController? controller,Function? validator}) {
+Widget myTextFieldEmail({text, bool, TextEditingController? controller,Function? validator, String? prefixicon}) {
   return Container(
     height: 45,
     child: TextFormField(
@@ -77,6 +77,10 @@ Widget myTextFieldEmail({text, bool, TextEditingController? controller,Function?
             color: AppColors.genderTextColor,
           ),
           hintText: text,
+          prefixIcon: Image.asset(
+            prefixicon!,
+            cacheHeight: 20,
+          ),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0))
       ),
     ),
