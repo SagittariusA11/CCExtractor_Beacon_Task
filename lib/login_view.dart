@@ -1,3 +1,4 @@
+import 'package:ccextractor_beacon_task/utils/my_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -6,7 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/auth_controller.dart';
 import '../utils/app_color.dart';
-import 'utils/my_widgets.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -407,25 +407,6 @@ class _LoginViewState extends State<LoginView> {
                   },
                 ),
               )),
-            ),
-            myText(
-              text: 'Or Connect With',
-              style: TextStyle(
-                fontSize: Get.height * 0.025,
-              ),
-            ),
-            SizedBox(
-              height: Get.height * 0.01,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                socialAppsIcons(
-                    text: 'assets/login/google.png',
-                    onPressed: (){
-                    }
-                ),
-              ],
             ),
             SizedBox(
               height: Get.height * 0.02,
