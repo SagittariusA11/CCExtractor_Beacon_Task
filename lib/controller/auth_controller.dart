@@ -50,53 +50,7 @@ class AuthController extends GetxController{
     });
   }
 
-  // signInWithGoogle() async {
-  //   isLoading(true);
-  //   // Trigger the authentication flow
-  //   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-  //
-  //   // Obtain the auth details from the request
-  //   final GoogleSignInAuthentication? googleAuth =
-  //   await googleUser?.authentication;
-  //
-  //   // Create a new credential
-  //   final credential = GoogleAuthProvider.credential(
-  //     accessToken: googleAuth?.accessToken,
-  //     idToken: googleAuth?.idToken,
-  //   );
-  //
-  //   // Once signed in, return the UserCredential
-  //   FirebaseAuth.instance.signInWithCredential(credential).then((value) {
-  //     isLoading(false);
-  //
-  //     Get.to(() => HomeScreen());
-  //   }).catchError((e) {
-  //     isLoading(false);
-  //     print("Error is $e");
-  //   });
-  // }
-
   var isProfileInformationLoading = false.obs;
-
-  Future<String> uploadImageToFirebaseStorage(File image) async {
-    String imageUrl = '';
-    String fileName = Path.basename(image.path);
-
-    var reference =
-    FirebaseStorage.instance.ref().child('profileImages/$fileName');
-    UploadTask uploadTask = reference.putFile(image);
-    TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
-    await taskSnapshot.ref.getDownloadURL().then((value) {
-      imageUrl = value;
-    }).catchError((e) {
-      print("Error happen $e");
-    });
-
-    return imageUrl;
-  }
-
-
-
 
   uploadProfileData(String imageUrl, String firstName,
       String mobileNumber, String dob, String age, String shortDetails,
