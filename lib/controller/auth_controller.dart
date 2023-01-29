@@ -1,11 +1,13 @@
 import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:path/path.dart' as Path;
 
-import 'home_screen.dart';
+import '../home_screen.dart';
+
 
 class AuthController extends GetxController{
 
@@ -75,40 +77,45 @@ class AuthController extends GetxController{
   // }
 
   var isProfileInformationLoading = false.obs;
-  //
-  // Future<String> uploadImageToFirebaseStorage(File image) async {
-  //   String imageUrl = '';
-  //   String fileName = Path.basename(image.path);
-  //
-  //   var reference =
-  //   FirebaseStorage.instance.ref().child('profileImages/$fileName');
-  //   UploadTask uploadTask = reference.putFile(image);
-  //   TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
-  //   await taskSnapshot.ref.getDownloadURL().then((value) {
-  //     imageUrl = value;
-  //   }).catchError((e) {
-  //     print("Error happen $e");
-  //   });
-  //
-  //   return imageUrl;
-  // }
+
+  Future<String> uploadImageToFirebaseStorage(File image) async {
+    String imageUrl = '';
+    String fileName = Path.basename(image.path);
+
+    var reference =
+    FirebaseStorage.instance.ref().child('profileImages/$fileName');
+    UploadTask uploadTask = reference.putFile(image);
+    TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
+    await taskSnapshot.ref.getDownloadURL().then((value) {
+      imageUrl = value;
+    }).catchError((e) {
+      print("Error happen $e");
+    });
+
+    return imageUrl;
+  }
 
 
 
 
-  uploadProfileData(String firstName, String lastName,
-      String dob, String gender, String mob,String uid) {
+  uploadProfileData(String imageUrl, String firstName,
+      String mobileNumber, String dob, String age, String shortDetails,
+      String Charges , String longDetails, String gender , String uid, String work) {
 
     String uid = FirebaseAuth.instance.currentUser!.uid;
 
-    FirebaseFirestore.instance.collection('users').doc(uid).set({
-      // 'image': imageUrl,
+    FirebaseFirestore.instance.collection('counsellor_anonymous').doc(uid).set({
+      'image': imageUrl,
       'first': firstName,
-      'last': lastName,
       'dob': dob,
-      'uid': uid,
+      'work': work,
       'gender': gender,
-      'mob': mob
+      'mobileNumber': mobileNumber,
+      'uid': uid,
+      'age': age,
+      'shortDetails': shortDetails,
+      'longDetails': longDetails,
+      'charges': Charges
     }).then((value) {
       isProfileInformationLoading(false);
       Get.offAll(()=> HomeScreen());

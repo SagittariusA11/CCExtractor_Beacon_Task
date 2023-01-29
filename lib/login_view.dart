@@ -1,11 +1,11 @@
-import 'package:ccextractor_beacon_task/utils/app_color.dart';
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'auth_controller.dart';
+import '../controller/auth_controller.dart';
+import '../utils/app_color.dart';
 import 'my_widgets.dart';
 
 class LoginView extends StatefulWidget {
@@ -171,7 +171,7 @@ class _LoginViewState extends State<LoginView> {
             children: [
               myTextFieldEmail(
                   bool: false,
-                  // prefixicon: 'assets/login/mail.png',
+                  prefixicon: 'assets/login/mail.png',
                   text: 'sarasmith12@gmail.com',
                   validator: (String input){
                     if(input.isEmpty){
@@ -217,7 +217,7 @@ class _LoginViewState extends State<LoginView> {
                           children: [
                             myTextFieldEmail(
                                 bool: false,
-                                // prefixicon: 'assets/login/lock.png',
+                                prefixicon: 'assets/login/lock.png',
                                 text: 'enter your email...',
                                 controller: forgetEmailController
                             ),
@@ -266,6 +266,7 @@ class _LoginViewState extends State<LoginView> {
                 }
 
                 authController.login(email: emailController.text.trim(),password: passwordController.text.trim());
+
 
               },
             ),
@@ -334,7 +335,7 @@ class _LoginViewState extends State<LoginView> {
 
             myTextFieldEmail(
                 bool: false,
-                // prefixicon: 'assets/login/mail.png',
+                prefixicon: 'assets/login/mail.png',
                 text: 'Email',
                 validator: (String input){
                   if(input.isEmpty){
@@ -386,24 +387,27 @@ class _LoginViewState extends State<LoginView> {
                 },
                 controller: confirmPasswordController
             ),
-            Obx(()=> authController.isLoading.value? Center(child: CircularProgressIndicator(),) : Container(
-              height: 50,
-              margin: EdgeInsets.symmetric(
-                vertical: Get.height * 0.04,
-              ),
-              width: Get.width,
-              child: elevatedButton(
-                text: 'Sign Up',
-                onpress: () {
-                  if(!formKey.currentState!.validate()){
-                    return;
-                  }
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Obx(()=> authController.isLoading.value? Center(child: CircularProgressIndicator(),) : Container(
+                height: 50,
+                margin: EdgeInsets.symmetric(
+                  vertical: Get.height * 0.04,
+                ),
+                width: Get.width,
+                child: elevatedButton(
+                  text: 'Sign Up',
+                  onpress: () {
+                    if(!formKey.currentState!.validate()){
+                      return;
+                    }
 
-                  authController.signUp(email: emailController.text.trim(),password: passwordController.text.trim());
+                    authController.signUp(email: emailController.text.trim(),password: passwordController.text.trim());
 
-                },
-              ),
-            )),
+                  },
+                ),
+              )),
+            ),
             myText(
               text: 'Or Connect With',
               style: TextStyle(
