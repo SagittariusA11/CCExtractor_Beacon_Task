@@ -86,6 +86,9 @@ class AuthController extends GetxController{
       'gender': gender,
       'mobileNumber': mobileNumber,
       'uid': uid,
+      'long': '',
+      'lat': '',
+      'share': false,
     }).then((value) {
       isProfileInformationLoading(false);
       Get.offAll(()=> HomeScreen());
