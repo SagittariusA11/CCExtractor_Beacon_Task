@@ -479,107 +479,113 @@ class _HomeScreenState extends State<HomeScreen> {
                             break;
                           }
                         }
+
                         if (notBlank != 0) {
                           return ListView.builder(
                             itemCount: snapshot.data?.docs.length,
                               itemBuilder: (context, index) {
-                                return Container(
-                                  margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
-                                  padding: const EdgeInsets.all(10.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white54.withOpacity(0.5),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.elliptical(25, 25)),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                          margin: EdgeInsets.only(right: 10),
-                                          width: 65,
-                                          height: 65,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: NetworkImage(snapshot.data!.docs[index]['image'].toString()),
-                                                fit: BoxFit.cover
+                                if (snapshot.data?.docs[index]['share']) {
+                                  return Container(
+                                    margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                                    padding: const EdgeInsets.all(10.0),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white54.withOpacity(0.5),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.elliptical(25, 25)),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                            margin: EdgeInsets.only(right: 10),
+                                            width: 65,
+                                            height: 65,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: NetworkImage(snapshot.data!.docs[index]['image'].toString()),
+                                                  fit: BoxFit.cover
+                                              ),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.elliptical(65, 65)),
+                                            )
+                                        ),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              snapshot.data!.docs[index]['name'].toString(),
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                                  fontFamily: 'Outfit',
+                                                  fontSize: 20,
+                                                  letterSpacing:
+                                                  0 /*percentages not used in flutter. defaulting to zero*/,
+                                                  fontWeight: FontWeight.bold,
+                                                  height: 1),
                                             ),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.elliptical(65, 65)),
-                                          )
-                                      ),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            snapshot.data!.docs[index]['name'].toString(),
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                                color: Color.fromRGBO(0, 0, 0, 1),
-                                                fontFamily: 'Outfit',
-                                                fontSize: 20,
-                                                letterSpacing:
-                                                0 /*percentages not used in flutter. defaulting to zero*/,
-                                                fontWeight: FontWeight.bold,
-                                                height: 1),
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Row(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'Latitude: ${snapshot.data!.docs[index]['lat'].toString()}',
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                        color: Color.fromRGBO(0, 0, 0, 1),
-                                                        fontFamily: 'Outfit',
-                                                        fontSize: 16,
-                                                        letterSpacing: 0,
-                                                        fontWeight: FontWeight.normal,
-                                                        height: 1),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 2,
-                                                  ),
-                                                  Text(
-                                                    'Longitude: ${snapshot.data!.docs[index]['long'].toString()}',
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                        color: Color.fromRGBO(0, 0, 0, 1),
-                                                        fontFamily: 'Outfit',
-                                                        fontSize: 16,
-                                                        letterSpacing: 0,
-                                                        fontWeight: FontWeight.normal,
-                                                        height: 1),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                              InkWell(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(4.0),
-                                                  child: Icon(Icons.directions),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'Latitude: ${snapshot.data!.docs[index]['lat'].toString()}',
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                                          fontFamily: 'Outfit',
+                                                          fontSize: 16,
+                                                          letterSpacing: 0,
+                                                          fontWeight: FontWeight.normal,
+                                                          height: 1),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 2,
+                                                    ),
+                                                    Text(
+                                                      'Longitude: ${snapshot.data!.docs[index]['long'].toString()}',
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                                          fontFamily: 'Outfit',
+                                                          fontSize: 16,
+                                                          letterSpacing: 0,
+                                                          fontWeight: FontWeight.normal,
+                                                          height: 1),
+                                                    ),
+                                                  ],
                                                 ),
-                                                onTap: () {
-                                                  Navigator.of(context).push(MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Map(snapshot.data!.docs[index].id)));
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                );
+                                                SizedBox(
+                                                  width: 20,
+                                                ),
+                                                InkWell(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(4.0),
+                                                    child: Icon(Icons.directions),
+                                                  ),
+                                                  onTap: () {
+                                                    Navigator.of(context).push(MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Map(snapshot.data!.docs[index].id)));
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+                                else{
+                                  return Container();
+                                }
                               },
                           );
                         }
