@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       elevatedButton(
-                        text: "Add location",
+                        text: "Update location",
                         onpress: () {
                           _getLocation();
                         },
@@ -102,50 +102,399 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                       elevatedButton(
-                        text: "Stop Sharing",
+                        text: "My Profile",
                         onpress: () {},
                       )
                     ],
                   ),
                 ],
               ),
+              StreamBuilder(
+                stream:
+                FirebaseFirestore.instance.collection('user')
+                    .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                    .snapshots(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.data?.docs[0]['lat'] != '') {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                          padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
+                          decoration: BoxDecoration(
+                            color: Colors.blueGrey.shade100.withOpacity(0.5),
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(10.0),
+                                topLeft: Radius.circular(10.0)
+                            )
+                          ),
+                          child: Text(
+                            'My Saved Location',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                color: Color.fromRGBO(0, 0, 0, 1),
+                                fontFamily: 'Outfit',
+                                fontSize: 20,
+                                letterSpacing:
+                                0 /*percentages not used in flutter. defaulting to zero*/,
+                                fontWeight: FontWeight.bold,
+                                height: 1),
+                          ),
+                        ),
+                        Container(
+                              margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                              padding: const EdgeInsets.all(10.0),
+                              decoration: BoxDecoration(
+                                color: Colors.white54.withOpacity(0.5),
+                                borderRadius: BorderRadius.all(
+                                    Radius.elliptical(25, 25)),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(right: 10),
+                                      width: 65,
+                                      height: 65,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage(snapshot.data!.docs[0]['image'].toString()),
+                                          fit: BoxFit.cover
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.elliptical(65, 65)),
+                                      )
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        snapshot.data!.docs[0]['name'].toString(),
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontFamily: 'Outfit',
+                                            fontSize: 20,
+                                            letterSpacing:
+                                            0 /*percentages not used in flutter. defaulting to zero*/,
+                                            fontWeight: FontWeight.bold,
+                                            height: 1),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Latitude: ${snapshot.data!.docs[0]['lat'].toString()}',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                                    fontFamily: 'Outfit',
+                                                    fontSize: 16,
+                                                    letterSpacing: 0,
+                                                    fontWeight: FontWeight.normal,
+                                                    height: 1),
+                                              ),
+                                              SizedBox(
+                                                height: 2,
+                                              ),
+                                              Text(
+                                                'Longitude: ${snapshot.data!.docs[0]['long'].toString()}',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                                    fontFamily: 'Outfit',
+                                                    fontSize: 16,
+                                                    letterSpacing: 0,
+                                                    fontWeight: FontWeight.normal,
+                                                    height: 1),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          InkWell(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(4.0),
+                                              child: Icon(Icons.directions),
+                                            ),
+                                            onTap: () {
+                                              Navigator.of(context).push(MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Map(snapshot.data!.docs[0].id)));
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                      ],
+                    );
+                  }
+                  else {
+                    return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
+                        decoration: BoxDecoration(
+                            color: Colors.blueGrey.shade100.withOpacity(0.5),
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(10.0),
+                                topLeft: Radius.circular(10.0)
+                            )
+                        ),
+                        child: Text(
+                          'My Saved Location',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                              fontFamily: 'Outfit',
+                              fontSize: 20,
+                              letterSpacing:
+                              0 /*percentages not used in flutter. defaulting to zero*/,
+                              fontWeight: FontWeight.bold,
+                              height: 1),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          _getLocation();
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                          padding: const EdgeInsets.all(10.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white54.withOpacity(0.5),
+                            borderRadius: BorderRadius.all(
+                                Radius.elliptical(25, 25)),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Tap to Add Location',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                  fontFamily: 'Outfit',
+                                  fontSize: 20,
+                                  letterSpacing:
+                                  0 /*percentages not used in flutter. defaulting to zero*/,
+                                  fontWeight: FontWeight.bold,
+                                  height: 1),
+                            ),
+                          )
+                        ),
+                      ),
+                    ],
+                  );
+                  }
+                },
+              ),
+              Container(
+                margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
+                decoration: BoxDecoration(
+                    color: Colors.blueGrey.shade100.withOpacity(0.5),
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(10.0),
+                        topLeft: Radius.circular(10.0)
+                    )
+                ),
+                child: Text(
+                  'Shared Location',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      color: Color.fromRGBO(0, 0, 0, 1),
+                      fontFamily: 'Outfit',
+                      fontSize: 20,
+                      letterSpacing:
+                      0 /*percentages not used in flutter. defaulting to zero*/,
+                      fontWeight: FontWeight.bold,
+                      height: 1),
+                ),
+              ),
               Expanded(
                   child: StreamBuilder(
                     stream:
-                    FirebaseFirestore.instance.collection('location').snapshots(),
+                    FirebaseFirestore.instance.collection('user')
+                        .where('uid', isNotEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                        .snapshots(),
                     builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (!snapshot.hasData) {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                      return ListView.builder(
+                      if (snapshot.hasData) {
+                        return ListView.builder(
                           itemCount: snapshot.data?.docs.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title:
-                              Text(snapshot.data!.docs[index]['name'].toString()),
-                              subtitle: Row(
-                                children: [
-                                  Text(snapshot.data!.docs[index]['latitude']
-                                      .toString()),
-                                  SizedBox(
-                                    width: 20,
+                            itemBuilder: (context, index) {
+                              if (snapshot.data?.docs[index]['share']) {
+                                return Container(
+                                  margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                                  padding: const EdgeInsets.all(10.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white54.withOpacity(0.5),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.elliptical(25, 25)),
                                   ),
-                                  Text(snapshot.data!.docs[index]['longitude']
-                                      .toString()),
-                                ],
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                          margin: EdgeInsets.only(right: 10),
+                                          width: 65,
+                                          height: 65,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: NetworkImage(snapshot.data!.docs[index]['image'].toString()),
+                                                fit: BoxFit.cover
+                                            ),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.elliptical(65, 65)),
+                                          )
+                                      ),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            snapshot.data!.docs[index]['name'].toString(),
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                                color: Color.fromRGBO(0, 0, 0, 1),
+                                                fontFamily: 'Outfit',
+                                                fontSize: 20,
+                                                letterSpacing:
+                                                0 /*percentages not used in flutter. defaulting to zero*/,
+                                                fontWeight: FontWeight.bold,
+                                                height: 1),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'Latitude: ${snapshot.data!.docs[index]['lat'].toString()}',
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        color: Color.fromRGBO(0, 0, 0, 1),
+                                                        fontFamily: 'Outfit',
+                                                        fontSize: 16,
+                                                        letterSpacing: 0,
+                                                        fontWeight: FontWeight.normal,
+                                                        height: 1),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 2,
+                                                  ),
+                                                  Text(
+                                                    'Longitude: ${snapshot.data!.docs[index]['long'].toString()}',
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        color: Color.fromRGBO(0, 0, 0, 1),
+                                                        fontFamily: 'Outfit',
+                                                        fontSize: 16,
+                                                        letterSpacing: 0,
+                                                        fontWeight: FontWeight.normal,
+                                                        height: 1),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              InkWell(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(4.0),
+                                                  child: Icon(Icons.directions),
+                                                ),
+                                                onTap: () {
+                                                  Navigator.of(context).push(MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Map(snapshot.data!.docs[index].id)));
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                              else{
+                                return Container(
+                                    margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                                    padding: const EdgeInsets.all(20.0),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white54.withOpacity(0.5),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.elliptical(25, 25)),
+                                    ),
+                                    child: Center(
+                                      child: FittedBox(
+                                        child: Text(
+                                          'No one has shared\ntheir location yet!',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              color: Color.fromRGBO(0, 0, 0, 1),
+                                              fontFamily: 'Outfit',
+                                              fontSize: 20,
+                                              letterSpacing:
+                                              0 /*percentages not used in flutter. defaulting to zero*/,
+                                              fontWeight: FontWeight.bold,
+                                              height: 1),
+                                        ),
+                                      ),
+                                    )
+                                );
+                              }
+                            },
+                        );
+                      }
+                      else {
+                        return Container(
+                            margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                            padding: const EdgeInsets.all(20.0),
+                            decoration: BoxDecoration(
+                              color: Colors.white54.withOpacity(0.5),
+                              borderRadius: BorderRadius.all(
+                                  Radius.elliptical(25, 25)),
+                            ),
+                            child: Center(
+                              child: FittedBox(
+                                child: Text(
+                                  'No one else has\n yet registered!',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      fontFamily: 'Outfit',
+                                      fontSize: 20,
+                                      letterSpacing:
+                                      0 /*percentages not used in flutter. defaulting to zero*/,
+                                      fontWeight: FontWeight.bold,
+                                      height: 1),
+                                ),
                               ),
-                              trailing: IconButton(
-                                icon: Icon(Icons.directions),
-                                onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          Map(snapshot.data!.docs[index].id)));
-                                },
-                              ),
-                            );
-                          });
+                            )
+                        );
+                      }
                     },
-                  )),
+                  ),
+              )
             ],
           ),
         ),
@@ -157,10 +506,10 @@ class _HomeScreenState extends State<HomeScreen> {
   _getLocation() async {
     try {
       final loc.LocationData _locationResult = await location.getLocation();
-      await FirebaseFirestore.instance.collection('location').doc(uid).set({
-        'latitude': _locationResult.latitude,
-        'longitude': _locationResult.longitude,
-        'name': '${controller.dataNotifier['name']}',
+      await FirebaseFirestore.instance.collection('user').doc(uid).set({
+        'lat': _locationResult.latitude,
+        'long': _locationResult.longitude,
+        // 'name': '${controller.dataNotifier['name']}',
       }, SetOptions(merge: true));
     } catch (e) {
       print(e);
@@ -175,18 +524,22 @@ class _HomeScreenState extends State<HomeScreen> {
         _locationSubscription = null;
       });
     }).listen((loc.LocationData currentlocation) async {
-      await FirebaseFirestore.instance.collection('location').doc(uid).set({
-        'latitude': currentlocation.latitude,
-        'longitude': currentlocation.longitude,
+      await FirebaseFirestore.instance.collection('user').doc(uid).set({
+        'lat': currentlocation.latitude,
+        'long': currentlocation.longitude,
+        'share': true,
       }, SetOptions(merge: true));
     });
   }
 
-  _stopSharing() {
+  _stopSharing() async {
     _locationSubscription?.cancel();
     setState(() {
       _locationSubscription = null;
     });
+    await FirebaseFirestore.instance.collection('user').doc(uid).set({
+      'share': false,
+    }, SetOptions(merge: true));
   }
 
   _requestPermission() async {

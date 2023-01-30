@@ -18,10 +18,10 @@ class _MapState extends State<Map> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('location').snapshots(),
+          stream: FirebaseFirestore.instance.collection('user').snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (_added) {
-              mymap(snapshot);
+              map(snapshot);
             }
             if (!snapshot.hasData) {
               return Center(child: CircularProgressIndicator());
@@ -32,9 +32,9 @@ class _MapState extends State<Map> {
                 Marker(
                     position: LatLng(
                       snapshot.data!.docs.singleWhere(
-                              (element) => element.id == widget.user_id)['latitude'],
+                              (element) => element.id == widget.user_id)['lat'],
                       snapshot.data!.docs.singleWhere(
-                              (element) => element.id == widget.user_id)['longitude'],
+                              (element) => element.id == widget.user_id)['long'],
                     ),
                     markerId: MarkerId('id'),
                     icon: BitmapDescriptor.defaultMarkerWithHue(
@@ -43,9 +43,9 @@ class _MapState extends State<Map> {
               initialCameraPosition: CameraPosition(
                   target: LatLng(
                     snapshot.data!.docs.singleWhere(
-                            (element) => element.id == widget.user_id)['latitude'],
+                            (element) => element.id == widget.user_id)['lat'],
                     snapshot.data!.docs.singleWhere(
-                            (element) => element.id == widget.user_id)['longitude'],
+                            (element) => element.id == widget.user_id)['long'],
                   ),
                   zoom: 14.47),
               onMapCreated: (GoogleMapController controller) async {
@@ -59,14 +59,14 @@ class _MapState extends State<Map> {
         ));
   }
 
-  Future<void> mymap(AsyncSnapshot<QuerySnapshot> snapshot) async {
+  Future<void> map(AsyncSnapshot<QuerySnapshot> snapshot) async {
     await _controller
         .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: LatLng(
           snapshot.data!.docs.singleWhere(
-                  (element) => element.id == widget.user_id)['latitude'],
+                  (element) => element.id == widget.user_id)['lat'],
           snapshot.data!.docs.singleWhere(
-                  (element) => element.id == widget.user_id)['longitude'],
+                  (element) => element.id == widget.user_id)['long'],
         ),
         zoom: 14.47)));
   }
