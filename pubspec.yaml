@@ -48,6 +48,7 @@ dependencies:
   location: ^4.3.0
   permission_handler: ^8.1.4+2
   image_picker: ^0.8.6
+  fluttertoast: ^8.1.2
 
 dev_dependencies:
   flutter_test:
