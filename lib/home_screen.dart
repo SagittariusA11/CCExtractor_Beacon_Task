@@ -436,61 +436,38 @@ class _HomeScreenState extends State<HomeScreen> {
                                 );
                               }
                               else{
-                                return Container(
-                                    margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
-                                    padding: const EdgeInsets.all(20.0),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white54.withOpacity(0.5),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.elliptical(25, 25)),
-                                    ),
-                                    child: Center(
-                                      child: FittedBox(
-                                        child: Text(
-                                          'No one has shared\ntheir location yet!',
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              color: Color.fromRGBO(0, 0, 0, 1),
-                                              fontFamily: 'Outfit',
-                                              fontSize: 20,
-                                              letterSpacing:
-                                              0 /*percentages not used in flutter. defaulting to zero*/,
-                                              fontWeight: FontWeight.bold,
-                                              height: 1),
-                                        ),
-                                      ),
-                                    )
-                                );
+                                return Container();
                               }
                             },
                         );
                       }
                       else {
-                        return Container(
-                            margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
-                            padding: const EdgeInsets.all(20.0),
-                            decoration: BoxDecoration(
-                              color: Colors.white54.withOpacity(0.5),
-                              borderRadius: BorderRadius.all(
-                                  Radius.elliptical(25, 25)),
-                            ),
-                            child: Center(
-                              child: FittedBox(
-                                child: Text(
-                                  'No one else has\n yet registered!',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(0, 0, 0, 1),
-                                      fontFamily: 'Outfit',
-                                      fontSize: 20,
-                                      letterSpacing:
-                                      0 /*percentages not used in flutter. defaulting to zero*/,
-                                      fontWeight: FontWeight.bold,
-                                      height: 1),
-                                ),
-                              ),
-                            )
-                        );
+                        return Container();
+                        // return Container(
+                        //     margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                        //     padding: const EdgeInsets.all(20.0),
+                        //     decoration: BoxDecoration(
+                        //       color: Colors.white54.withOpacity(0.5),
+                        //       borderRadius: BorderRadius.all(
+                        //           Radius.elliptical(25, 25)),
+                        //     ),
+                        //     child: Center(
+                        //       child: FittedBox(
+                        //         child: Text(
+                        //           'No one has shared\ntheir location yet!',
+                        //           textAlign: TextAlign.left,
+                        //           style: TextStyle(
+                        //               color: Color.fromRGBO(0, 0, 0, 1),
+                        //               fontFamily: 'Outfit',
+                        //               fontSize: 20,
+                        //               letterSpacing:
+                        //               0 /*percentages not used in flutter. defaulting to zero*/,
+                        //               fontWeight: FontWeight.bold,
+                        //               height: 1),
+                        //         ),
+                        //       ),
+                        //     )
+                        // );
                       }
                     },
                   ),
