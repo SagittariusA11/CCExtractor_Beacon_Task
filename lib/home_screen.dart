@@ -471,7 +471,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           .where('uid', isNotEqualTo: FirebaseAuth.instance.currentUser!.uid)
                           .snapshots(),
                       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.data?.docs[0]['share']) {
+                        if (snapshot.hasData) {
                           return ListView.builder(
                             itemCount: snapshot.data?.docs.length,
                               itemBuilder: (context, index) {
