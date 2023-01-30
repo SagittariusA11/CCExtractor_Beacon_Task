@@ -1,12 +1,16 @@
 import 'package:ccextractor_beacon_task/utils/my_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/auth_controller.dart';
 import '../utils/app_color.dart';
+import 'home_screen.dart';
+import 'main.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -45,119 +49,122 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      builder: (context, child) => SafeArea(
-        child: DefaultTabController(
-          length: 2,
-          child: Scaffold(
-            body: SingleChildScrollView(
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: Get.width * 0.05),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: Get.height * 0.08,
-                    ),
-                    isSignUp
-                        ? myText(
-                      text: 'Sign Up',
-                      style: TextStyle(
-                        fontSize: 23,
-                        fontWeight: FontWeight.w600,
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: ScreenUtilInit(
+        builder: (context, child) => SafeArea(
+          child: DefaultTabController(
+            length: 2,
+            child: Scaffold(
+              body: SingleChildScrollView(
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: Get.width * 0.05),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: Get.height * 0.08,
                       ),
-                    )
-                        : myText(
-                      text: 'Login',
-                      style: GoogleFonts.poppins(
-                        fontSize: 23,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    SizedBox(
-                      height: Get.height * 0.03,
-                    ),
-                    isSignUp
-                        ? Container(
-                      child: Text(
-                        'Welcome, Please Sign up to see events and classes from your friends.',
-                        style: GoogleFonts.roboto(
-                          letterSpacing: 0,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
+                      isSignUp
+                          ? myText(
+                        text: 'Sign Up',
+                        style: TextStyle(
+                          fontSize: 23,
+                          fontWeight: FontWeight.w600,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                        : Container(
-                      child: Text(
-                        'Welcome back, Please Sign in and continue your journey with us.',
-                        style: GoogleFonts.roboto(
-                          letterSpacing: 0,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
+                      )
+                          : myText(
+                        text: 'Login',
+                        style: GoogleFonts.poppins(
+                          fontSize: 23,
+                          fontWeight: FontWeight.w600,
                         ),
-                        textAlign: TextAlign.center,
                       ),
-                    ),
-                    SizedBox(
-                      height: Get.height * 0.03,
-                    ),
-                    Container(
-                      width: Get.width * 0.55,
-                      child: TabBar(
-                        labelPadding: EdgeInsets.all(Get.height * 0.01),
-                        unselectedLabelColor: Colors.grey,
-                        labelColor: Colors.black,
-                        indicatorColor: Colors.black,
-                        onTap: (v) {
-                          setState(() {
-                            isSignUp = !isSignUp;
-                          });
-                        },
-                        tabs: [
-                          myText(
-                            text: 'Login',
-                            style: TextStyle(
+                      SizedBox(
+                        height: Get.height * 0.03,
+                      ),
+                      isSignUp
+                          ? Container(
+                        child: Text(
+                          'Welcome, Please Sign up to see events and classes from your friends.',
+                          style: GoogleFonts.roboto(
+                            letterSpacing: 0,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                          : Container(
+                        child: Text(
+                          'Welcome back, Please Sign in and continue your journey with us.',
+                          style: GoogleFonts.roboto(
+                            letterSpacing: 0,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      SizedBox(
+                        height: Get.height * 0.03,
+                      ),
+                      Container(
+                        width: Get.width * 0.55,
+                        child: TabBar(
+                          labelPadding: EdgeInsets.all(Get.height * 0.01),
+                          unselectedLabelColor: Colors.grey,
+                          labelColor: Colors.black,
+                          indicatorColor: Colors.black,
+                          onTap: (v) {
+                            setState(() {
+                              isSignUp = !isSignUp;
+                            });
+                          },
+                          tabs: [
+                            myText(
+                              text: 'Login',
+                              style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.black),
+                            ),
+                            myText(
+                              text: 'Sign Up',
+                              style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w500,
-                                color: AppColors.black),
-                          ),
-                          myText(
-                            text: 'Sign Up',
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.black,
+                                color: AppColors.black,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: Get.height * 0.04,
-                    ),
-                    Container(
-                      width: Get.width,
-                      height: Get.height * 0.6,
-                      child: Form(
-                        key: formKey,
-                        child: TabBarView(
-                          physics: NeverScrollableScrollPhysics(),
-                          children: [
-                            LoginWidget(),
-                            SignUpWidget(),
                           ],
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        height: Get.height * 0.04,
+                      ),
+                      Container(
+                        width: Get.width,
+                        height: Get.height * 0.6,
+                        child: Form(
+                          key: formKey,
+                          child: TabBarView(
+                            physics: NeverScrollableScrollPhysics(),
+                            children: [
+                              LoginWidget(),
+                              SignUpWidget(),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
         ),
+        designSize: const Size(375.0, 728.0),
       ),
-      designSize: const Size(375.0, 728.0),
     );
   }
 
@@ -172,7 +179,7 @@ class _LoginViewState extends State<LoginView> {
               myTextFieldEmail(
                   bool: false,
                   prefixicon: 'assets/login/mail.png',
-                  text: 'sarasmith12@gmail.com',
+                  text: 'user01@gmail.com',
                   validator: (String input){
                     if(input.isEmpty){
                       Get.snackbar('Warning', 'Email is required.',colorText: Colors.white,backgroundColor: Colors.blue);
@@ -434,5 +441,24 @@ class _LoginViewState extends State<LoginView> {
           ],
         )
     );
+  }
+
+  Future<bool> _onWillPop() async {
+    DateTime currentTime = DateTime.now();
+
+    bool backButtonHasBeenPressedTwice = currentTime.difference(backButtonPressTime) > const Duration(seconds: 2) &&
+        currentTime.difference(backButtonPressTime) < const Duration(seconds: 5);
+
+    if (backButtonHasBeenPressedTwice) {
+      SystemNavigator.pop();
+      return false;
+    } else {
+      backButtonPressTime = currentTime;
+      Fluttertoast.showToast(
+          msg: "Press again to exit the App",
+          backgroundColor: Colors.black,
+          textColor: Colors.white);
+      return false;
+    }
   }
 }
