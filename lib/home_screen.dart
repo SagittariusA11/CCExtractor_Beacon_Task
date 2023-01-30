@@ -471,7 +471,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           .where('uid', isNotEqualTo: FirebaseAuth.instance.currentUser!.uid)
                           .snapshots(),
                       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.hasData) {
+                        if (snapshot.data?.docs[0]['share']) {
                           return ListView.builder(
                             itemCount: snapshot.data?.docs.length,
                               itemBuilder: (context, index) {
@@ -581,32 +581,32 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         }
                         else {
-                          return Container();
-                          // return Container(
-                          //     margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
-                          //     padding: const EdgeInsets.all(20.0),
-                          //     decoration: BoxDecoration(
-                          //       color: Colors.white54.withOpacity(0.5),
-                          //       borderRadius: BorderRadius.all(
-                          //           Radius.elliptical(25, 25)),
-                          //     ),
-                          //     child: Center(
-                          //       child: FittedBox(
-                          //         child: Text(
-                          //           'No one has shared\ntheir location yet!',
-                          //           textAlign: TextAlign.left,
-                          //           style: TextStyle(
-                          //               color: Color.fromRGBO(0, 0, 0, 1),
-                          //               fontFamily: 'Outfit',
-                          //               fontSize: 20,
-                          //               letterSpacing:
-                          //               0 /*percentages not used in flutter. defaulting to zero*/,
-                          //               fontWeight: FontWeight.bold,
-                          //               height: 1),
-                          //         ),
-                          //       ),
-                          //     )
-                          // );
+                          // return Container();
+                          return Container(
+                              margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                              padding: const EdgeInsets.all(20.0),
+                              decoration: BoxDecoration(
+                                color: Colors.white54.withOpacity(0.5),
+                                borderRadius: BorderRadius.all(
+                                    Radius.elliptical(25, 25)),
+                              ),
+                              child: Center(
+                                child: FittedBox(
+                                  child: Text(
+                                    'No one has shared\ntheir location yet!',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Color.fromRGBO(0, 0, 0, 1),
+                                        fontFamily: 'Outfit',
+                                        fontSize: 20,
+                                        letterSpacing:
+                                        0 /*percentages not used in flutter. defaulting to zero*/,
+                                        fontWeight: FontWeight.bold,
+                                        height: 1),
+                                  ),
+                                ),
+                              )
+                          );
                         }
                       },
                     ),
@@ -638,6 +638,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _shareLocation(int time) async {
+    Fluttertoast.showToast(
+        msg: "Sharing has started",
+        backgroundColor: Colors.black,
+        textColor: Colors.white);
     _locationSubscription = location.onLocationChanged.handleError((onError) {
       print(onError);
       _locationSubscription?.cancel();
@@ -648,20 +652,19 @@ class _HomeScreenState extends State<HomeScreen> {
       DateTime currentTime = DateTime.now();
       bool shareButtonPressedHasBeen = currentTime.difference(shareButtonPressTime) > const Duration(seconds: 0) &&
           currentTime.difference(shareButtonPressTime) < Duration(seconds: time*3600);
-      if (!shareButtonPressedHasBeen) {
-        shareButtonPressTime = currentTime;
+      if (shareButtonPressedHasBeen) {
+        // shareButtonPressTime = currentTime;
         await FirebaseFirestore.instance.collection('user').doc(uid).set({
           'lat': currentlocation.latitude,
           'long': currentlocation.longitude,
           'share': true,
         }, SetOptions(merge: true));
-        Fluttertoast.showToast(
-            msg: "Sharing has started",
-            backgroundColor: Colors.black,
-            textColor: Colors.white);
+        // print("share $currentTime");
       }
       else {
+        shareButtonPressTime = currentTime;
         _stopSharing();
+        // print("stop $currentTime");
       }
     });
   }

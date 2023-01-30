@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../controller/auth_controller.dart';
 import '../utils/app_color.dart';
@@ -43,6 +44,7 @@ class _LoginViewState extends State<LoginView> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _requestPermission();
     authController = Get.put(AuthController());
 
   }
@@ -459,6 +461,16 @@ class _LoginViewState extends State<LoginView> {
           backgroundColor: Colors.black,
           textColor: Colors.white);
       return false;
+    }
+  }
+  _requestPermission() async {
+    var status = await Permission.location.request();
+    if (status.isGranted) {
+      print('done');
+    } else if (status.isDenied) {
+      _requestPermission();
+    } else if (status.isPermanentlyDenied) {
+      openAppSettings();
     }
   }
 }
