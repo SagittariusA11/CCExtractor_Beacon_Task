@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:ccextractor_beacon_task/utils/my_widgets.dart';
+import 'package:ccextractor_beacon_task/utils/profile_screen.dart';
 import 'package:ccextractor_beacon_task/utils/size_config.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -103,7 +104,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       elevatedButton(
                         text: "My Profile",
-                        onpress: () {},
+                        onpress: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfileScreen()));
+                        },
                       )
                     ],
                   ),
